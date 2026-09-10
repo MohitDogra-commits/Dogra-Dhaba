@@ -1,0 +1,1243 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>DOGRA — Tandoor Kitchen</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Rozha+One&family=Work+Sans:wght@400;500;600;700;800&display=swap');
+
+        :root {
+            --ink: #241C1C;
+            --bg: #FBF3E7;
+            --card: #FFFDF8;
+            --maroon: #6B1E23;
+            --maroon-deep: #4E1519;
+            --mustard: #E3A008;
+            --mustard-soft: #F3CB63;
+            --veg: #3F7D4F;
+            --nonveg: #B33A3A;
+            --line: rgba(36, 28, 28, 0.12);
+            --shadow: 0 1px 0 rgba(36, 28, 28, 0.06);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--ink);
+            font-family: 'Work Sans', sans-serif;
+            -webkit-font-smoothing: antialiased;
+            padding-bottom: 92px;
+        }
+
+        h1,
+        h2,
+        h3,
+        .display {
+            font-family: 'Rozha One', serif;
+            font-weight: 400;
+            letter-spacing: 0.2px;
+        }
+
+        button {
+            font-family: inherit;
+            cursor: pointer;
+        }
+
+        input,
+        select {
+            font-family: inherit;
+        }
+
+        /* ---------- top pattern bar ---------- */
+        .spice-rule {
+            height: 8px;
+            background: repeating-linear-gradient(45deg, var(--mustard) 0 10px, var(--maroon) 10px 20px);
+        }
+
+        /* ---------- header / hero ---------- */
+        header.hero {
+            background: var(--maroon);
+            color: var(--bg);
+            padding: 34px 20px 40px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        header.hero::after {
+            content: "";
+            position: absolute;
+            right: -40px;
+            top: -40px;
+            width: 220px;
+            height: 220px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(227, 160, 8, 0.35), transparent 70%);
+        }
+
+        .hero-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            max-width: 960px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .brand {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .brand .display {
+            font-size: 52px;
+            line-height: 1;
+            color: var(--mustard-soft);
+        }
+
+        .brand .tag {
+            font-size: 14px;
+            opacity: 0.85;
+            margin-top: 6px;
+            max-width: 320px;
+        }
+
+        .owner-link {
+            background: transparent;
+            border: 1px solid rgba(251, 243, 231, 0.4);
+            color: var(--bg);
+            padding: 8px 14px;
+            border-radius: 999px;
+            font-size: 13px;
+            white-space: nowrap;
+        }
+
+        .owner-link.active {
+            background: var(--mustard);
+            color: var(--maroon-deep);
+            border-color: var(--mustard);
+            font-weight: 600;
+        }
+
+        .hero-note {
+            max-width: 960px;
+            margin: 22px auto 0;
+            position: relative;
+            z-index: 1;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            font-size: 13px;
+        }
+
+        .pill {
+            background: rgba(251, 243, 231, 0.12);
+            border: 1px solid rgba(251, 243, 231, 0.25);
+            padding: 6px 12px;
+            border-radius: 999px;
+        }
+
+        /* ---------- category nav ---------- */
+        nav.cats {
+            position: sticky;
+            top: 0;
+            z-index: 20;
+            background: var(--bg);
+            border-bottom: 1px solid var(--line);
+            overflow-x: auto;
+            white-space: nowrap;
+            padding: 12px 16px;
+            display: flex;
+            gap: 8px;
+        }
+
+        nav.cats::-webkit-scrollbar {
+            display: none;
+        }
+
+        .cat-chip {
+            border: 1px solid var(--line);
+            background: var(--card);
+            padding: 8px 16px;
+            border-radius: 999px;
+            font-size: 13.5px;
+            font-weight: 500;
+            color: var(--ink);
+            flex: 0 0 auto;
+        }
+
+        .cat-chip.on {
+            background: var(--maroon);
+            border-color: var(--maroon);
+            color: var(--bg);
+        }
+
+        main {
+            max-width: 960px;
+            margin: 0 auto;
+            padding: 28px 16px 40px;
+        }
+
+        section.cat-section {
+            margin-bottom: 38px;
+            scroll-margin-top: 64px;
+        }
+
+        .cat-title {
+            font-size: 28px;
+            color: var(--maroon);
+            margin: 0 0 4px;
+        }
+
+        .cat-sub {
+            font-size: 13px;
+            color: rgba(36, 28, 28, 0.55);
+            margin: 0 0 16px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 16px;
+        }
+
+        .dish {
+            background: var(--card);
+            border: 1px solid var(--line);
+            border-radius: 14px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            box-shadow: var(--shadow);
+        }
+
+        .dish-media {
+            height: 150px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(160deg, #F3E4C8, #EAD3A3);
+            font-size: 56px;
+            position: relative;
+        }
+
+        .dish-media img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .veg-dot {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            width: 18px;
+            height: 18px;
+            border-radius: 4px;
+            border: 2px solid var(--veg);
+            background: var(--card);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .veg-dot.non {
+            border-color: var(--nonveg);
+        }
+
+        .veg-dot i {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--veg);
+            display: block;
+        }
+
+        .veg-dot.non i {
+            background: var(--nonveg);
+        }
+
+        .owner-remove {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background: rgba(36, 28, 28, 0.75);
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            font-size: 11px;
+            padding: 4px 8px;
+        }
+
+        .dish-body {
+            padding: 14px 14px 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            flex: 1;
+        }
+
+        .dish-name {
+            font-size: 16.5px;
+            font-weight: 600;
+        }
+
+        .dish-price-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .dish-price {
+            font-size: 15px;
+            color: var(--maroon);
+            font-weight: 700;
+        }
+
+        .price-edit {
+            width: 80px;
+            padding: 4px 6px;
+            border: 1px solid var(--mustard);
+            border-radius: 6px;
+            font-size: 14px;
+        }
+
+        .qty-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: auto;
+        }
+
+        .stepper {
+            display: flex;
+            align-items: center;
+            border: 1px solid var(--line);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .stepper button {
+            width: 32px;
+            height: 32px;
+            border: none;
+            background: var(--card);
+            font-size: 16px;
+            color: var(--maroon);
+        }
+
+        .stepper button:active {
+            background: var(--mustard-soft);
+        }
+
+        .stepper span {
+            width: 28px;
+            text-align: center;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .add-btn {
+            border: none;
+            background: var(--maroon);
+            color: var(--bg);
+            padding: 8px 14px;
+            border-radius: 10px;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .add-btn.added {
+            background: var(--veg);
+        }
+
+        /* ---------- owner add-dish panel ---------- */
+        .owner-panel {
+            background: #FFF7E6;
+            border: 1px dashed var(--mustard);
+            border-radius: 14px;
+            padding: 18px;
+            margin-bottom: 30px;
+        }
+
+        .owner-panel h3 {
+            margin: 0 0 10px;
+            font-size: 20px;
+            color: var(--maroon-deep);
+        }
+
+        .owner-form {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 10px;
+        }
+
+        .owner-form input,
+        .owner-form select {
+            padding: 9px 10px;
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            font-size: 13.5px;
+            width: 100%;
+        }
+
+        .owner-form button {
+            grid-column: 1/-1;
+            justify-self: start;
+            border: none;
+            background: var(--mustard);
+            color: var(--maroon-deep);
+            font-weight: 700;
+            padding: 10px 20px;
+            border-radius: 10px;
+            font-size: 14px;
+        }
+
+        /* ---------- kitchen / orders ---------- */
+        .order-card {
+            background: var(--card);
+            border: 1px solid var(--line);
+            border-radius: 14px;
+            padding: 16px;
+            margin-bottom: 14px;
+        }
+
+        .order-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .order-top .who {
+            font-weight: 700;
+            font-size: 15px;
+        }
+
+        .order-top .when {
+            font-size: 12px;
+            color: rgba(36, 28, 28, 0.55);
+        }
+
+        .order-items {
+            font-size: 13.5px;
+            margin: 8px 0;
+            color: rgba(36, 28, 28, 0.8);
+        }
+
+        .order-total {
+            font-weight: 700;
+            color: var(--maroon);
+        }
+
+        .status-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 10px;
+        }
+
+        .status-badge {
+            font-size: 12px;
+            font-weight: 700;
+            padding: 5px 12px;
+            border-radius: 999px;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+        }
+
+        .status-badge.waiting {
+            background: #F3CB63;
+            color: var(--maroon-deep);
+        }
+
+        .status-badge.preparing {
+            background: #DEE9DA;
+            color: var(--veg);
+        }
+
+        .status-badge.served {
+            background: #E5E5E5;
+            color: #555;
+        }
+
+        .status-btns button {
+            border: 1px solid var(--line);
+            background: var(--bg);
+            padding: 6px 10px;
+            border-radius: 8px;
+            font-size: 12.5px;
+        }
+
+        .status-btns button.on {
+            background: var(--maroon);
+            color: var(--bg);
+            border-color: var(--maroon);
+        }
+
+        .eta-input {
+            width: 60px;
+            padding: 5px 6px;
+            border: 1px solid var(--line);
+            border-radius: 6px;
+            font-size: 12.5px;
+        }
+
+        .empty-note {
+            font-size: 14px;
+            color: rgba(36, 28, 28, 0.55);
+            padding: 18px 0;
+        }
+
+        /* ---------- floating cart ---------- */
+        .cart-bar {
+            position: fixed;
+            left: 16px;
+            right: 16px;
+            bottom: 16px;
+            z-index: 30;
+            background: var(--maroon);
+            color: var(--bg);
+            border-radius: 16px;
+            padding: 14px 18px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 10px 30px rgba(36, 28, 28, 0.28);
+            max-width: 928px;
+            margin: 0 auto;
+        }
+
+        .cart-bar .info {
+            font-size: 14px;
+        }
+
+        .cart-bar .info b {
+            font-size: 16px;
+        }
+
+        .cart-bar button {
+            border: none;
+            background: var(--mustard);
+            color: var(--maroon-deep);
+            padding: 9px 16px;
+            border-radius: 10px;
+            font-weight: 700;
+            font-size: 13.5px;
+        }
+
+        /* ---------- modal ---------- */
+        .modal-veil {
+            position: fixed;
+            inset: 0;
+            background: rgba(36, 28, 28, 0.55);
+            z-index: 50;
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+        }
+
+        @media(min-width:640px) {
+            .modal-veil {
+                align-items: center;
+            }
+        }
+
+        .modal {
+            background: var(--card);
+            width: 100%;
+            max-width: 460px;
+            border-radius: 18px 18px 0 0;
+            padding: 22px 20px 26px;
+            max-height: 88vh;
+            overflow-y: auto;
+        }
+
+        @media(min-width:640px) {
+            .modal {
+                border-radius: 18px;
+            }
+        }
+
+        .modal h3 {
+            margin: 0 0 14px;
+            font-size: 22px;
+            color: var(--maroon-deep);
+        }
+
+        .modal label {
+            font-size: 12.5px;
+            color: rgba(36, 28, 28, 0.6);
+            display: block;
+            margin: 12px 0 4px;
+        }
+
+        .modal input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid var(--line);
+            border-radius: 9px;
+            font-size: 14px;
+        }
+
+        .modal .line {
+            display: flex;
+            justify-content: space-between;
+            font-size: 13.5px;
+            padding: 4px 0;
+        }
+
+        .modal .total-line {
+            font-weight: 700;
+            font-size: 16px;
+            border-top: 1px solid var(--line);
+            margin-top: 8px;
+            padding-top: 10px;
+        }
+
+        .modal .close-x {
+            position: absolute;
+            top: 14px;
+            right: 16px;
+            background: none;
+            border: none;
+            font-size: 20px;
+            color: rgba(36, 28, 28, 0.5);
+        }
+
+        .modal-wrap {
+            position: relative;
+        }
+
+        .primary-btn {
+            width: 100%;
+            border: none;
+            background: var(--maroon);
+            color: var(--bg);
+            padding: 13px;
+            border-radius: 11px;
+            font-weight: 700;
+            font-size: 14.5px;
+            margin-top: 16px;
+        }
+
+        .secondary-btn {
+            width: 100%;
+            border: 1px solid var(--maroon);
+            background: transparent;
+            color: var(--maroon);
+            padding: 12px;
+            border-radius: 11px;
+            font-weight: 600;
+            font-size: 14px;
+            margin-top: 10px;
+        }
+
+        #qr-box {
+            display: flex;
+            justify-content: center;
+            padding: 14px 0;
+        }
+
+        .upi-id-note {
+            text-align: center;
+            font-size: 13px;
+            color: rgba(36, 28, 28, 0.65);
+        }
+
+        .confirm-note {
+            font-size: 12.5px;
+            color: rgba(36, 28, 28, 0.55);
+            text-align: center;
+            margin-top: 8px;
+        }
+
+        .my-orders {
+            margin-top: 6px;
+        }
+
+        .toast {
+            position: fixed;
+            top: 16px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--ink);
+            color: var(--bg);
+            padding: 10px 18px;
+            border-radius: 10px;
+            font-size: 13.5px;
+            z-index: 60;
+            opacity: 0;
+            transition: opacity .25s ease;
+        }
+
+        .toast.show {
+            opacity: 1;
+        }
+
+        .section-heading {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 6px;
+        }
+
+        .refresh-note {
+            font-size: 11.5px;
+            color: rgba(36, 28, 28, 0.45);
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="spice-rule"></div>
+    <header class="hero">
+        <div class="hero-top">
+            <div class="brand">
+                <div class="display">DOGRA</div>
+                <div class="tag">Tandoor to table — Punjabi &amp; Himachali home cooking</div>
+            </div>
+            <button class="owner-link" id="ownerBtn">Owner</button>
+        </div>
+        <div class="hero-note">
+            <span class="pill" id="kitchenStatus">Kitchen open</span>
+            <span class="pill">Dine-in ordering</span>
+            <span class="pill">Pay by UPI</span>
+        </div>
+    </header>
+
+    <nav class="cats" id="catNav"></nav>
+
+    <main>
+        <div id="ownerAddPanel"></div>
+        <div id="menuRoot"></div>
+        <div id="ordersRoot" style="display:none;"></div>
+        <div id="myOrdersRoot" class="my-orders"></div>
+    </main>
+
+    <div class="cart-bar" id="cartBar" style="display:none;">
+        <div class="info"><b id="cartCount">0</b> items · ₹<span id="cartTotal">0</span></div>
+        <button id="viewCartBtn">Review order</button>
+    </div>
+
+    <div id="modalRoot"></div>
+    <div class="toast" id="toast"></div>
+
+    <script>
+        /* ============================= DATA ============================= */
+        const OWNER_PIN = "DOGRA1947";
+        const MENU_KEY = "dogra:menu";
+        const ORDERS_KEY = "dogra:orders";
+        const MY_ORDERS_KEY = "dogra:my-order-ids";
+
+        const CATEGORY_ORDER = ["Starters", "Veg Mains", "Non-Veg Mains", "Rice & Biryani", "Breads", "Desserts", "Beverages", "Specials"];
+
+        const DEFAULT_MENU = [
+            { id: "samosa", name: "Samosa", category: "Starters", price: 30, veg: true, icon: "🥟" },
+            { id: "pakora", name: "Pakora", category: "Starters", price: 80, veg: true, icon: "🍟" },
+            { id: "paneer-tikka", name: "Paneer Tikka", category: "Starters", price: 220, veg: true, icon: "🧀" },
+            { id: "chicken-tikka", name: "Chicken Tikka", category: "Starters", price: 300, veg: false, icon: "🍢" },
+            { id: "tandoori-chicken", name: "Tandoori Chicken", category: "Starters", price: 350, veg: false, icon: "🍗" },
+
+            { id: "veg-manchurian", name: "Veg Manchurian", category: "Veg Mains", price: 180, veg: true, icon: "🥦" },
+            { id: "butter-paneer", name: "Butter Paneer", category: "Veg Mains", price: 240, veg: true, icon: "🧈" },
+            { id: "shahi-paneer", name: "Shahi Paneer", category: "Veg Mains", price: 250, veg: true, icon: "🧆" },
+            { id: "dal-makhani", name: "Dal Makhani", category: "Veg Mains", price: 220, veg: true, icon: "🍛" },
+            { id: "chana-masala", name: "Chana Masala", category: "Veg Mains", price: 180, veg: true, icon: "🫘" },
+            { id: "mix-veg", name: "Mix Veg", category: "Veg Mains", price: 190, veg: true, icon: "🥕" },
+            { id: "aloo-gobi", name: "Aloo Gobi", category: "Veg Mains", price: 170, veg: true, icon: "🥔" },
+            { id: "dal-tadka", name: "Dal Tadka", category: "Veg Mains", price: 180, veg: true, icon: "🍲" },
+
+            { id: "butter-chicken", name: "Butter Chicken", category: "Non-Veg Mains", price: 320, veg: false, icon: "🍖" },
+
+            { id: "veg-biryani", name: "Veg Biryani", category: "Rice & Biryani", price: 220, veg: true, icon: "🍚" },
+            { id: "chicken-biryani", name: "Chicken Biryani", category: "Rice & Biryani", price: 280, veg: false, icon: "🍚" },
+            { id: "plain-rice", name: "Plain Rice", category: "Rice & Biryani", price: 120, veg: true, icon: "🍙" },
+            { id: "jeera-rice", name: "Jeera Rice", category: "Rice & Biryani", price: 150, veg: true, icon: "🌾" },
+
+            { id: "butter-naan", name: "Butter Naan", category: "Breads", price: 60, veg: true, icon: "🫓" },
+            { id: "garlic-naan", name: "Garlic Naan", category: "Breads", price: 80, veg: true, icon: "🧄" },
+            { id: "tandoori-roti", name: "Tandoori Roti", category: "Breads", price: 35, veg: true, icon: "🫓" },
+            { id: "plain-roti", name: "Plain Roti", category: "Breads", price: 25, veg: true, icon: "🫓" },
+
+            { id: "gulab-jamun", name: "Gulab Jamun", category: "Desserts", price: 100, veg: true, icon: "🍡" },
+            { id: "kheer", name: "Kheer", category: "Desserts", price: 120, veg: true, icon: "🍮" },
+            { id: "ice-cream", name: "Ice Cream", category: "Desserts", price: 100, veg: true, icon: "🍨" },
+
+            { id: "lime-water", name: "Fresh Lime Water", category: "Beverages", price: 80, veg: true, icon: "🍋" },
+            { id: "cold-drink", name: "Cold Drink", category: "Beverages", price: 60, veg: true, icon: "🥤" },
+            { id: "tea", name: "Tea", category: "Beverages", price: 50, veg: true, icon: "☕" },
+            { id: "coffee", name: "Coffee", category: "Beverages", price: 80, veg: true, icon: "☕" },
+            { id: "mineral-water", name: "Mineral Water", category: "Beverages", price: 30, veg: true, icon: "💧" },
+        ];
+
+        let menu = [];
+        let orders = [];
+        let myOrderIds = [];
+        let cart = {};       // dishId -> qty
+        let isOwner = false;
+        let activeCat = null;
+        let activeTab = "menu"; // 'menu' | 'kitchen'
+
+        /* ============================= STORAGE HELPERS ============================= */
+        async function loadJSON(key, shared) {
+            try {
+                const res = await window.storage.get(key, shared);
+                return res ? JSON.parse(res.value) : null;
+            } catch (e) { return null; }
+        }
+        async function saveJSON(key, value, shared) {
+            try { await window.storage.set(key, JSON.stringify(value), shared); }
+            catch (e) { console.error("storage save failed", key, e); }
+        }
+
+        async function initData() {
+            let m = await loadJSON(MENU_KEY, true);
+            if (!m) { m = DEFAULT_MENU; await saveJSON(MENU_KEY, m, true); }
+            menu = m;
+
+            let o = await loadJSON(ORDERS_KEY, true);
+            orders = o || [];
+
+            let mine = await loadJSON(MY_ORDERS_KEY, false);
+            myOrderIds = mine || [];
+
+            activeCat = CATEGORY_ORDER.find(c => menu.some(d => d.category === c)) || "Starters";
+
+            renderAll();
+            window.setInterval(refreshShared, 8000);
+            window.setInterval(renderMyOrders, 30000);
+        }
+
+        async function refreshShared() {
+            const m = await loadJSON(MENU_KEY, true);
+            if (m) menu = m;
+            const o = await loadJSON(ORDERS_KEY, true);
+            if (o) orders = o;
+            renderMenu();
+            if (activeTab === "kitchen") renderKitchen();
+            renderMyOrders();
+        }
+
+        /* ============================= UTIL ============================= */
+        function money(n) { return Number(n).toLocaleString("en-IN"); }
+        function toast(msg) {
+            const t = document.getElementById("toast");
+            t.textContent = msg;
+            t.classList.add("show");
+            window.setTimeout(() => t.classList.remove("show"), 1800);
+        }
+        function timeAgo(ts) {
+            const mins = Math.max(0, Math.round((Date.now() - ts) / 60000));
+            if (mins < 1) return "just now";
+            if (mins === 1) return "1 min ago";
+            return mins + " min ago";
+        }
+        function uid() { return Date.now().toString(36) + Math.random().toString(36).slice(2, 7); }
+
+        /* ============================= RENDER: CATEGORY NAV ============================= */
+        function renderCatNav() {
+            const cats = CATEGORY_ORDER.filter(c => menu.some(d => d.category === c));
+            const nav = document.getElementById("catNav");
+            nav.innerHTML = cats.map(c =>
+                `<button class="cat-chip ${c === activeCat && activeTab === 'menu' ? 'on' : ''}" data-cat="${c}">${c}</button>`
+            ).join("") + (isOwner ? `<button class="cat-chip ${activeTab === 'kitchen' ? 'on' : ''}" id="kitchenTabBtn">Kitchen (${orders.filter(o => o.status !== 'served').length})</button>` : "");
+            nav.querySelectorAll(".cat-chip[data-cat]").forEach(btn => {
+                btn.addEventListener("click", () => {
+                    activeTab = "menu";
+                    activeCat = btn.dataset.cat;
+                    renderAll();
+                    const el = document.getElementById("sec-" + slug(activeCat));
+                    if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+                });
+            });
+            const kBtn = document.getElementById("kitchenTabBtn");
+            if (kBtn) kBtn.addEventListener("click", () => { activeTab = "kitchen"; renderAll(); });
+        }
+        function slug(s) { return s.toLowerCase().replace(/[^a-z0-9]+/g, "-"); }
+
+        /* ============================= RENDER: MENU ============================= */
+        function renderMenu() {
+            const root = document.getElementById("menuRoot");
+            const ownersPanel = document.getElementById("ownerAddPanel");
+            const ordersRoot = document.getElementById("ordersRoot");
+
+            if (activeTab === "kitchen") {
+                root.style.display = "none";
+                ordersRoot.style.display = "block";
+                ownersPanel.innerHTML = "";
+                return;
+            }
+            root.style.display = "block";
+            ordersRoot.style.display = "none";
+
+            ownersPanel.innerHTML = isOwner ? renderOwnerAddForm() : "";
+            if (isOwner) attachOwnerFormEvents();
+
+            const cats = CATEGORY_ORDER.filter(c => menu.some(d => d.category === c));
+            root.innerHTML = cats.map(cat => {
+                const dishes = menu.filter(d => d.category === cat);
+                return `<section class="cat-section" id="sec-${slug(cat)}">
+      <div class="section-heading">
+        <h2 class="cat-title">${cat}</h2>
+      </div>
+      <p class="cat-sub">${dishes.length} item${dishes.length !== 1 ? 's' : ''}</p>
+      <div class="grid">${dishes.map(renderDishCard).join("")}</div>
+    </section>`;
+            }).join("");
+
+            attachDishEvents();
+        }
+
+        function renderDishCard(d) {
+            const qty = cart[d.id] || 0;
+            const media = d.imageUrl
+                ? `<img src="${d.imageUrl}" alt="${d.name}">`
+                : d.icon;
+            return `<div class="dish" data-id="${d.id}">
+    <div class="dish-media">
+      ${media}
+      <span class="veg-dot ${d.veg ? '' : 'non'}"><i></i></span>
+      ${isOwner ? `<button class="owner-remove" data-remove="${d.id}">Remove</button>` : ""}
+    </div>
+    <div class="dish-body">
+      <div class="dish-name">${d.name}</div>
+      <div class="dish-price-row">
+        ${isOwner
+                    ? `<input class="price-edit" type="number" min="0" value="${d.price}" data-price="${d.id}">`
+                    : `<div class="dish-price">₹${money(d.price)}</div>`}
+      </div>
+      <div class="qty-row">
+        <div class="stepper">
+          <button data-minus="${d.id}">–</button>
+          <span data-qty="${d.id}">${qty}</span>
+          <button data-plus="${d.id}">+</button>
+        </div>
+        <button class="add-btn ${qty > 0 ? 'added' : ''}" data-add="${d.id}">${qty > 0 ? qty + ' plate' + (qty > 1 ? 's' : '') : 'Add'}</button>
+      </div>
+    </div>
+  </div>`;
+        }
+
+        function attachDishEvents() {
+            document.querySelectorAll("[data-plus]").forEach(b => b.addEventListener("click", () => changeQty(b.dataset.plus, 1)));
+            document.querySelectorAll("[data-minus]").forEach(b => b.addEventListener("click", () => changeQty(b.dataset.minus, -1)));
+            document.querySelectorAll("[data-add]").forEach(b => b.addEventListener("click", () => {
+                if (!cart[b.dataset.add]) changeQty(b.dataset.add, 1);
+            }));
+            document.querySelectorAll("[data-price]").forEach(inp => {
+                inp.addEventListener("change", async () => {
+                    const id = inp.dataset.price;
+                    const val = Math.max(0, Number(inp.value) || 0);
+                    const dish = menu.find(d => d.id === id);
+                    if (dish) { dish.price = val; await saveJSON(MENU_KEY, menu, true); toast(dish.name + " price updated to ₹" + val); renderCart(); }
+                });
+            });
+            document.querySelectorAll("[data-remove]").forEach(b => {
+                b.addEventListener("click", async () => {
+                    const id = b.dataset.remove;
+                    menu = menu.filter(d => d.id !== id);
+                    delete cart[id];
+                    await saveJSON(MENU_KEY, menu, true);
+                    toast("Item removed from menu");
+                    renderAll();
+                });
+            });
+        }
+
+        function changeQty(id, delta) {
+            const current = cart[id] || 0;
+            const next = Math.max(0, current + delta);
+            if (next === 0) delete cart[id]; else cart[id] = next;
+            const qtyEl = document.querySelector(`[data-qty="${id}"]`);
+            if (qtyEl) qtyEl.textContent = cart[id] || 0;
+            const addBtn = document.querySelector(`[data-add="${id}"]`);
+            if (addBtn) {
+                const q = cart[id] || 0;
+                addBtn.textContent = q > 0 ? q + ' plate' + (q > 1 ? 's' : '') : 'Add';
+                addBtn.classList.toggle("added", q > 0);
+            }
+            renderCartBar();
+        }
+
+        /* ============================= OWNER: ADD DISH ============================= */
+        function renderOwnerAddForm() {
+            return `<div class="owner-panel">
+    <h3>Add a new dish</h3>
+    <div class="owner-form">
+      <input id="newName" placeholder="Dish name" />
+      <select id="newCategory">
+        ${CATEGORY_ORDER.map(c => `<option value="${c}">${c}</option>`).join("")}
+      </select>
+      <input id="newPrice" type="number" min="0" placeholder="Price (₹)" />
+      <select id="newVeg">
+        <option value="veg">Veg</option>
+        <option value="nonveg">Non-veg</option>
+      </select>
+      <input id="newIcon" placeholder="Emoji icon (optional)" maxlength="2" />
+      <input id="newImage" placeholder="Photo URL (optional)" />
+      <button id="addDishBtn" type="button">Add to menu</button>
+    </div>
+  </div>`;
+        }
+        function attachOwnerFormEvents() {
+            const btn = document.getElementById("addDishBtn");
+            if (!btn) return;
+            btn.addEventListener("click", async () => {
+                const name = document.getElementById("newName").value.trim();
+                const category = document.getElementById("newCategory").value;
+                const price = Math.max(0, Number(document.getElementById("newPrice").value) || 0);
+                const veg = document.getElementById("newVeg").value === "veg";
+                const icon = document.getElementById("newIcon").value.trim() || "🍽️";
+                const imageUrl = document.getElementById("newImage").value.trim();
+                if (!name || !price) { toast("Add a name and price first"); return; }
+                const dish = { id: slug(name) + "-" + uid().slice(0, 4), name, category, price, veg, icon, imageUrl: imageUrl || undefined };
+                menu.push(dish);
+                await saveJSON(MENU_KEY, menu, true);
+                toast(name + " added to the menu");
+                activeCat = category;
+                renderAll();
+            });
+        }
+
+        /* ============================= CART / CHECKOUT ============================= */
+        function cartLines() {
+            return Object.entries(cart).map(([id, qty]) => {
+                const d = menu.find(m => m.id === id);
+                return d ? { id, name: d.name, price: d.price, qty } : null;
+            }).filter(Boolean);
+        }
+        function cartTotal() { return cartLines().reduce((s, l) => s + l.price * l.qty, 0); }
+
+        function renderCartBar() {
+            const lines = cartLines();
+            const bar = document.getElementById("cartBar");
+            if (lines.length === 0) { bar.style.display = "none"; return; }
+            bar.style.display = "flex";
+            document.getElementById("cartCount").textContent = lines.reduce((s, l) => s + l.qty, 0);
+            document.getElementById("cartTotal").textContent = money(cartTotal());
+        }
+        function renderCart() { renderCartBar(); }
+
+        document.getElementById("viewCartBtn").addEventListener("click", openCheckoutModal);
+
+        function openCheckoutModal() {
+            const lines = cartLines();
+            if (lines.length === 0) { toast("Your cart is empty"); return; }
+            const total = cartTotal();
+            const root = document.getElementById("modalRoot");
+            root.innerHTML = `<div class="modal-veil" id="veil">
+    <div class="modal modal-wrap">
+      <button class="close-x" id="closeCheckout">✕</button>
+      <h3>Review your order</h3>
+      ${lines.map(l => `<div class="line"><span>${l.name} × ${l.qty}</span><span>₹${money(l.price * l.qty)}</span></div>`).join("")}
+      <div class="line total-line"><span>Total</span><span>₹${money(total)}</span></div>
+      <label>Your name</label>
+      <input id="custName" placeholder="e.g. Rohan" />
+      <label>Table number (optional)</label>
+      <input id="custTable" placeholder="e.g. Table 4" />
+      <button class="primary-btn" id="goToPayBtn">Continue to pay ₹${money(total)}</button>
+    </div>
+  </div>`;
+            document.getElementById("closeCheckout").addEventListener("click", closeModal);
+            document.getElementById("veil").addEventListener("click", (e) => { if (e.target.id === "veil") closeModal(); });
+            document.getElementById("goToPayBtn").addEventListener("click", () => {
+                const name = document.getElementById("custName").value.trim();
+                if (!name) { toast("Enter your name so the kitchen can call your order"); return; }
+                const table = document.getElementById("custTable").value.trim();
+                openPaymentModal(lines, total, name, table);
+            });
+        }
+
+        function openPaymentModal(lines, total, name, table) {
+            const orderId = uid();
+            const upiId = "9816287537@yesfam";
+            const note = "DOGRA-" + orderId.slice(-5);
+            const upiLink = `upi://pay?pa=${encodeURIComponent(upiId)}&pn=${encodeURIComponent("DOGRA")}&am=${total}&cu=INR&tn=${encodeURIComponent(note)}`;
+            const root = document.getElementById("modalRoot");
+            root.innerHTML = `<div class="modal-veil" id="veil2">
+    <div class="modal modal-wrap">
+      <button class="close-x" id="closePay">✕</button>
+      <h3>Pay ₹${money(total)} by UPI</h3>
+      <div id="qr-box"></div>
+      <p class="upi-id-note">Scan with any UPI app, or tap below on your phone<br><b>${upiId}</b></p>
+      <button class="secondary-btn" id="openUpiBtn">Open UPI app</button>
+      <button class="primary-btn" id="confirmPaidBtn">I've paid — place order</button>
+      <p class="confirm-note">The kitchen sees your order the moment you confirm here.</p>
+    </div>
+  </div>`;
+            document.getElementById("closePay").addEventListener("click", closeModal);
+            document.getElementById("veil2").addEventListener("click", (e) => { if (e.target.id === "veil2") closeModal(); });
+            try { new QRCode(document.getElementById("qr-box"), { text: upiLink, width: 180, height: 180 }); }
+            catch (e) { document.getElementById("qr-box").textContent = "QR unavailable — use the button below."; }
+            document.getElementById("openUpiBtn").addEventListener("click", () => { window.location.href = upiLink; });
+            document.getElementById("confirmPaidBtn").addEventListener("click", async () => {
+                await placeOrder(orderId, lines, total, name, table);
+            });
+        }
+
+        async function placeOrder(orderId, lines, total, name, table) {
+            const order = {
+                id: orderId,
+                items: lines,
+                total,
+                customerName: name,
+                tableNote: table,
+                status: "waiting",
+                etaMinutes: null,
+                createdAt: Date.now()
+            };
+            orders.push(order);
+            await saveJSON(ORDERS_KEY, orders, true);
+            myOrderIds.push(orderId);
+            await saveJSON(MY_ORDERS_KEY, myOrderIds, false);
+            cart = {};
+            closeModal();
+            toast("Order placed! The kitchen has been notified.");
+            renderAll();
+        }
+
+        function closeModal() { document.getElementById("modalRoot").innerHTML = ""; }
+
+        /* ============================= MY ORDERS (customer) ============================= */
+        function renderMyOrders() {
+            const root = document.getElementById("myOrdersRoot");
+            const mine = orders.filter(o => myOrderIds.includes(o.id)).sort((a, b) => b.createdAt - a.createdAt);
+            if (mine.length === 0) { root.innerHTML = ""; return; }
+            root.innerHTML = `<div class="section-heading"><h2 class="cat-title" style="font-size:22px;">My orders</h2><span class="refresh-note">updates automatically</span></div>` +
+                mine.map(o => `<div class="order-card">
+      <div class="order-top">
+        <span class="who">${o.tableNote ? o.tableNote + " · " : ""}₹${money(o.total)}</span>
+        <span class="when">${timeAgo(o.createdAt)}</span>
+      </div>
+      <div class="order-items">${o.items.map(l => l.name + " ×" + l.qty).join(", ")}</div>
+      <div class="status-row">
+        <span class="status-badge ${o.status}">${o.status}</span>
+        ${o.etaMinutes ? `<span class="refresh-note">~${o.etaMinutes} min</span>` : ""}
+      </div>
+    </div>`).join("");
+        }
+
+        /* ============================= OWNER: KITCHEN QUEUE ============================= */
+        function renderKitchen() {
+            const root = document.getElementById("ordersRoot");
+            const active = orders.filter(o => o.status !== 'served').sort((a, b) => a.createdAt - b.createdAt);
+            const served = orders.filter(o => o.status === 'served').sort((a, b) => b.createdAt - a.createdAt).slice(0, 10);
+
+            if (orders.length === 0) {
+                root.innerHTML = `<p class="empty-note">No orders yet. New orders will appear here the moment a customer checks out.</p>`;
+                return;
+            }
+
+            root.innerHTML = `<h2 class="cat-title">Kitchen queue</h2>` +
+                (active.length === 0 ? `<p class="empty-note">All caught up — no orders waiting.</p>` : active.map(orderRow).join("")) +
+                (served.length ? `<h3 style="margin-top:26px;color:var(--maroon-deep);">Recently served</h3>` + served.map(orderRow).join("") : "");
+
+            attachKitchenEvents();
+        }
+
+        function orderRow(o) {
+            return `<div class="order-card" data-order="${o.id}">
+    <div class="order-top">
+      <span class="who">${o.customerName}${o.tableNote ? " · " + o.tableNote : ""}</span>
+      <span class="when">${timeAgo(o.createdAt)}</span>
+    </div>
+    <div class="order-items">${o.items.map(l => l.name + " ×" + l.qty).join(", ")}</div>
+    <div class="order-total">₹${money(o.total)}</div>
+    <div class="status-row">
+      <div class="status-btns">
+        <button data-status="waiting" class="${o.status === 'waiting' ? 'on' : ''}">Waiting</button>
+        <button data-status="preparing" class="${o.status === 'preparing' ? 'on' : ''}">Preparing</button>
+        <button data-status="served" class="${o.status === 'served' ? 'on' : ''}">Served</button>
+      </div>
+      <label style="font-size:12px;color:rgba(36,28,28,0.55);">ETA
+        <input type="number" min="0" class="eta-input" value="${o.etaMinutes || ''}" data-eta="${o.id}"> min
+      </label>
+    </div>
+  </div>`;
+        }
+
+        function attachKitchenEvents() {
+            document.querySelectorAll("[data-status]").forEach(btn => {
+                btn.addEventListener("click", async () => {
+                    const card = btn.closest("[data-order]");
+                    const id = card.dataset.order;
+                    const order = orders.find(o => o.id === id);
+                    if (order) { order.status = btn.dataset.status; await saveJSON(ORDERS_KEY, orders, true); renderKitchen(); renderCatNav(); }
+                });
+            });
+            document.querySelectorAll("[data-eta]").forEach(inp => {
+                inp.addEventListener("change", async () => {
+                    const id = inp.dataset.eta;
+                    const order = orders.find(o => o.id === id);
+                    if (order) { order.etaMinutes = Number(inp.value) || null; await saveJSON(ORDERS_KEY, orders, true); toast("Estimated time updated"); }
+                });
+            });
+        }
+
+        /* ============================= OWNER LOGIN ============================= */
+        document.getElementById("ownerBtn").addEventListener("click", () => {
+            if (isOwner) {
+                isOwner = false;
+                activeTab = "menu";
+                toast("Owner mode off");
+                renderAll();
+                return;
+            }
+            const root = document.getElementById("modalRoot");
+            root.innerHTML = `<div class="modal-veil" id="veilOwner">
+    <div class="modal modal-wrap">
+      <button class="close-x" id="closeOwner">✕</button>
+      <h3>Owner sign-in</h3>
+      <label>PIN</label>
+      <input id="ownerPin" type="password" placeholder="Enter owner PIN" />
+      <button class="primary-btn" id="ownerSubmit">Unlock owner tools</button>
+    </div>
+  </div>`;
+            document.getElementById("closeOwner").addEventListener("click", closeModal);
+            document.getElementById("veilOwner").addEventListener("click", (e) => { if (e.target.id === "veilOwner") closeModal(); });
+            document.getElementById("ownerSubmit").addEventListener("click", () => {
+                const pin = document.getElementById("ownerPin").value;
+                if (pin === OWNER_PIN) {
+                    isOwner = true;
+                    closeModal();
+                    toast("Owner mode on — edit prices, add dishes, run the kitchen queue");
+                    renderAll();
+                } else {
+                    toast("Incorrect PIN");
+                }
+            });
+        });
+
+        /* ============================= RENDER ALL ============================= */
+        function renderAll() {
+            document.getElementById("ownerBtn").textContent = isOwner ? "Owner ✓" : "Owner";
+            document.getElementById("ownerBtn").classList.toggle("active", isOwner);
+            renderCatNav();
+            renderMenu();
+            if (activeTab === "kitchen") renderKitchen();
+            renderCartBar();
+            renderMyOrders();
+        }
+
+        initData();
+    </script>
+</body>
+
+</html>
